@@ -7,8 +7,9 @@ import pandas as pd
 
 
 # Define the parameters: a_w0, a_2w0, b, and any other constants
-a_w0 = 0.00 # damping coeffiient of FW
-a_2w0 = 0.48 # damping coeffiient of SH
+a_w0 = 0.0 # damping coefficient of FW
+a_2w0 = 0.5 # damping coefficient of SH
+b = 0.1 # SH conversion coefficient
 U_w0_0 = 1.0  # initial field intensity
 
 
@@ -34,8 +35,6 @@ def integrand_U_2w0(z_prime, U_w0_interp, z):
     return U_w0_interp(z_prime)**2 * np.exp(-0.5 * a_2w0 * (z - z_prime))
 
 
-
-
 U_w0_values[0] = U_w0_0
 for i, z in enumerate(z_values[1:], start=1):
     j = i + 1
@@ -48,7 +47,7 @@ for i, z in enumerate(z_values[1:], start=1):
 
 
     # calculate SHG efficient
-    n[i] =  (U_2w0_values[i]/(U_w0_values[i]))**2
+    n[i] =  (U_2w0_values[i]/(U_w0_values[i])**2)**2
     n_g[i] =  (U_2w0_values[i]/U_w0_values[i])
     I_w[i] = U_w0_values[i]**2
     I_2w[i] = U_2w0_values[i]**2
